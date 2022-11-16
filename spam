@@ -1,0 +1,26 @@
+def bayesian(mails, spam, key):
+    # To-do 
+    # 1. 전체 메일 중 스팸메일을 고르는 사건을 A라 하고,
+    # P(A) = 스팸 메일의 수 / 전체 메일의 수 를 구해봅시다.
+    pa = spam.count(True) / len(mails)
+    
+    # 2. 전체 메일 중 문자열 key이 포함된 메일을 고르는 사건을 B라 하고,
+    # P(B) = key가 들어있는 메일의 수 / 전체 메일의 수를 구해봅시다.
+    pb = [key in m for m in mails].count(True) / len(mails)
+    
+    # 3. 스팸메일을 골랐을 때(A) 그 메일에 key가 포함(B)되어있을 확률을 구해봅시다.
+    # 즉, P(B|A) = P(A∩B) / P(A)를 구해봅시다.
+    # P(A) : 고른 메일이 스팸메일인 확률
+    # P(A∩B) : 고른 메일이 스팸메일이면서 메일에 key가 포함되어있을 확률
+    pba = [(key in mails[i]) and spam[i] for i in range(len(mails))].count(True) / len(mails) / pa
+    
+    # 4. 메일에 key가 포함되어 있을 때 그 메일이 스팸메일일 확률을 구합니다.
+    # 베이즈 정리에 의해 구하고자 하는 확률은
+    # P(A|B) = P(A) * P(B|A) / P(B)입니다.
+    
+    
+    return pa * pba / pb
+    
+    
+# 결과 출력을 위한 코드입니다. 자유롭게 값을 바꿔보며 확인해보세요.
+print(bayesian(['hello my name is elice', 'free money for you', 'we all lie', 'free for all'], [False, True, False, False], 'free'))
